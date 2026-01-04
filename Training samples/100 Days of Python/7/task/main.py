@@ -1,74 +1,32 @@
 import random
+from hangman_words import word_list
+from hangman_arts import stages, logo
 
-stages = ['''
-  +---+
-  |   |
-  O   |
- /|\  |
- / \  |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
- /    |
-      |
-=========''','''
-  +---+
-  |   |
-  O   |
- /|\  |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========''','''
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========''' ]
-
-
-word_list = ["aardvark", "baboon", "camel"]
+# LIVES AREA
 lives = 6
 
-chosen_word = random.choice(word_list)
-print(chosen_word)
 
+print(logo)
+chosen_word = random.choice(word_list)
+# print(f"for testing: {chosen_word}")
+
+# PLACEHOLDERS FOR THE LETTERS
 placeholder = ""
 
 for position in range(len(chosen_word)):
     placeholder += "_"
 print(placeholder)
 
+# MAIN LOGIC
 game_over = False
 right_letters = []
 
 while not game_over:
+    print(f"********************** {lives}/6 LIVES LEFT **********************")
     guess = input("Guess a letter: ").lower()
+
+    if guess in right_letters:
+        print (f"You've already guessed {guess}")
 
     display = ""
 
@@ -81,16 +39,19 @@ while not game_over:
             display += letter
         else:
             display += "_"
-    print(display)
+    print("Word to guess: " + display)
 
     if guess not in chosen_word:
         lives -= 1
+        print(f"{guess}, that's not in the word. You lose a life")
         if lives == 0:
             game_over = True
-            print("You Lose!")
+
+            print(f"********************** {lives}/6 LIVES LEFT **********************")
+            print(f"************* THE WORD WAS:{chosen_word}, YOU LOSE! *****************")
 
     if "_" not in display:
         game_over = True
-        print("You win!")
+        print("********************** YOU WIN! **********************")
 
     print(stages[lives])
